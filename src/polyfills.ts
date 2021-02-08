@@ -57,6 +57,14 @@
  */
 import 'zone.js/dist/zone';  // Included with Angular CLI.
 
+global.Buffer = global.Buffer || require('buffer').Buffer;
+
+// global.crypto = global.Crypto || require('crypto-js').Crypto;
+
+import 'crypto';
+
+import 'crypto-js';
+
 
 /***************************************************************************************************
  * APPLICATION IMPORTS

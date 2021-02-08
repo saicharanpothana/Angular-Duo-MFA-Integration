@@ -1,10 +1,46 @@
-import { Component } from '@angular/core';
+import { AfterContentInit, Component, OnInit } from '@angular/core';
+import * as DuoWebSDK from 'duo_web_sdk';
+import { AppService } from './app.service';
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements AfterContentInit {
   title = 'angular-duo-mfa-integration';
+
+  constructor(public appService: AppService) {
+
+  }
+
+  ngAfterContentInit() {
+    this.onSave();
+  }
+
+  onSave() {
+    this.appService.getFrameData().subscribe(response => {
+      DuoWebSDK.init({
+        iframe: "iframe",
+        host: "api-2d84a605.duosecurity.com",
+        sig_request: response,
+        submit_callback: this.submitPostAction.bind(this),
+      });
+       
+    })
+
+  }
+  submitPostAction(form) {
+    this.appService.postAction(form.sig_response.value).subscribe((response) => {
+      debugger;
+      if (response === 'abc1234') {
+        console.log({duoAuthState: 'AUTHORIZED USER!'});
+      } else {
+        console.log({duoAuthState: 'NON AUTHORIZED USER!'});
+      }
+    });
+
+   
+  }
 }
