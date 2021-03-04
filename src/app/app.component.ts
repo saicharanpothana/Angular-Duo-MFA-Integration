@@ -23,7 +23,7 @@ export class AppComponent implements AfterContentInit {
     this.appService.getFrameData().subscribe(response => {
       DuoWebSDK.init({
         iframe: "iframe",
-        host: "api-2d84a605.duosecurity.com",
+        host: "YOUR_HOST_NAME", // your API Host Name goes in here: find it on your duo acoount web sdk
         sig_request: response,
         submit_callback: this.submitPostAction.bind(this),
       });
